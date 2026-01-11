@@ -1,1 +1,2782 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siyoto's Restaurant &amp; Learning Hub</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    html, body, #main-wrapper {
+      height: 100%;
+      width: 100%;
+    }
+
+    #main-wrapper {
+      overflow-y: auto;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.95);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .clock-display {
+      color: white;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-menu a:hover {
+      background: #ffd700;
+      color: #000;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      min-height: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      color: #ffd700;
+      margin-bottom: 1rem;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #ffd700;
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #ffed4e;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: #000;
+      transform: translateY(-3px);
+    }
+
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-card-image {
+      height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .menu-card-content {
+      padding: 1.5rem;
+    }
+
+    .menu-card-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .menu-card-price {
+      font-size: 1.8rem;
+      color: #e74c3c;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .menu-card-description {
+      color: #666;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .add-to-cart {
+      width: 100%;
+      padding: 0.8rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background: #229954;
+      transform: scale(1.05);
+    }
+
+    .cart-container {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .qty-btn {
+      width: 35px;
+      height: 35px;
+      border: none;
+      background: #667eea;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .qty-btn:hover {
+      background: #764ba2;
+      transform: scale(1.1);
+    }
+
+    .cart-total {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 1rem;
+      color: #e74c3c;
+    }
+
+    .checkout-form {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .payment-method {
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .payment-method.selected {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+
+    .mobile-number-input {
+      display: none;
+    }
+
+    .mobile-number-input.active {
+      display: block;
+    }
+
+    .pin-request-message {
+      display: none;
+      background: #e8f5e9;
+      border: 2px solid #4caf50;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .pin-request-message.active {
+      display: block;
+    }
+
+    .pin-request-message i {
+      font-size: 2rem;
+      color: #4caf50;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .course-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .course-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .topics-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .topics-list li {
+      padding: 0.5rem 0;
+      color: #555;
+      border-bottom: 1px solid #eee;
+    }
+
+    .topics-list li:before {
+      content: '✓ ';
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .topic-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-left: 4px solid #667eea;
+    }
+
+    .topic-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .topic-card h3 {
+      color: #667eea;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .topic-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .notes-container {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      line-height: 1.8;
+    }
+
+    .notes-container h3 {
+      color: #667eea;
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem 0;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 0.5rem;
+    }
+
+    .notes-container h4 {
+      color: #764ba2;
+      font-size: 1.4rem;
+      margin: 1.5rem 0 0.8rem 0;
+    }
+
+    .notes-container ul, .notes-container ol {
+      margin: 1rem 0 1rem 2rem;
+    }
+
+    .notes-container li {
+      margin: 0.5rem 0;
+      color: #333;
+    }
+
+    .notes-container p {
+      margin: 1rem 0;
+      color: #333;
+    }
+
+    .notes-container pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .notes-container code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #e74c3c;
+    }
+
+    .notes-container pre code {
+      background: transparent;
+      padding: 0;
+      color: #f8f8f2;
+    }
+
+    .example-box {
+      background: #f0f8ff;
+      border-left: 4px solid #3498db;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+    }
+
+    .example-box h5 {
+      color: #3498db;
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .exercise-box {
+      background: #fff8f0;
+      border-left: 4px solid #f39c12;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+    }
+
+    .exercise-box h5 {
+      color: #f39c12;
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .formula-box {
+      background: #f0fff4;
+      border: 2px solid #27ae60;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    .about-section {
+      background: white;
+      border-radius: 15px;
+      padding: 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .about-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .owner-slideshow {
+      height: 400px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .owner-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .owner-icon {
+      font-size: 8rem;
+      color: white;
+    }
+
+    .about-content {
+      line-height: 1.8;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    .about-title {
+      font-size: 2.5rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .about-subtitle {
+      font-size: 1.5rem;
+      color: #764ba2;
+      margin-bottom: 2rem;
+    }
+
+    .map-container {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .location-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .location-card {
+      padding: 1.5rem;
+      background: #f8f9ff;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .location-icon {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 900px;
+      max-height: 90%;
+      overflow-y: auto;
+      position: relative;
+      width: 100%;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .close-modal:hover {
+      background: #c0392b;
+      transform: rotate(90deg);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1500;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.2);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+    }
+
+    .loading-spinner {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+
+    .loading-spinner.active {
+      display: block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: #27ae60;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background: #e74c3c;
+    }
+
+    .back-btn {
+      background: #6c757d;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #5a6268;
+      transform: translateX(-5px);
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .nav-menu {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .owner-slideshow {
+        height: 300px;
+      }
+
+      .owner-icon {
+        font-size: 5rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="main-wrapper">
+   <nav class="navbar">
+    <div class="nav-container">
+     <div class="logo" id="logo-text">
+      🍽️ Siyoto's
+     </div>
+     <div class="clock-display"><i class="fas fa-clock"></i> <span id="current-time">--:--:-- CAT</span>
+     </div>
+     <ul class="nav-menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#order">Order</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#location">Location</a></li>
+     </ul>
+    </div>
+   </nav>
+   <section class="hero" id="home">
+    <div class="hero-content">
+     <h1 class="hero-title" id="hero-title">Siyoto's Restaurant &amp; Bakery</h1>
+     <p class="hero-subtitle" id="hero-subtitle">Exceptional Dining, Premium Bakery &amp; Quality Education</p>
+     <div class="hero-buttons"><button class="btn btn-primary" onclick="scrollToSection('menu')"> <i class="fas fa-utensils"></i> View Menu </button> <button class="btn btn-secondary" onclick="scrollToSection('education')"> <i class="fas fa-graduation-cap"></i> Learn Online </button>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="menu">
+    <h2 class="section-title">Our Delicious Menu</h2>
+    <div class="menu-grid">
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🍕
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Gourmet Pizza</h3>
+       <div class="menu-card-price">
+        K85.00
+       </div>
+       <p class="menu-card-description">Wood-fired pizza with premium toppings and homemade sauce</p><button class="add-to-cart" onclick="addToCart('Gourmet Pizza', 85)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🍔
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Premium Burger</h3>
+       <div class="menu-card-price">
+        K65.00
+       </div>
+       <p class="menu-card-description">Juicy beef patty with fresh vegetables and special sauce</p><button class="add-to-cart" onclick="addToCart('Premium Burger', 65)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🍰
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Chocolate Cake</h3>
+       <div class="menu-card-price">
+        K45.00
+       </div>
+       <p class="menu-card-description">Rich chocolate layer cake with smooth ganache</p><button class="add-to-cart" onclick="addToCart('Chocolate Cake', 45)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🥗
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Caesar Salad</h3>
+       <div class="menu-card-price">
+        K38.00
+       </div>
+       <p class="menu-card-description">Fresh romaine lettuce with parmesan and croutons</p><button class="add-to-cart" onclick="addToCart('Caesar Salad', 38)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🍝
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Pasta Alfredo</h3>
+       <div class="menu-card-price">
+        K72.00
+       </div>
+       <p class="menu-card-description">Creamy fettuccine with grilled chicken and parmesan</p><button class="add-to-cart" onclick="addToCart('Pasta Alfredo', 72)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🥐
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Fresh Croissant</h3>
+       <div class="menu-card-price">
+        K25.00
+       </div>
+       <p class="menu-card-description">Buttery, flaky croissant baked fresh daily</p><button class="add-to-cart" onclick="addToCart('Fresh Croissant', 25)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       ☕
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Premium Coffee</h3>
+       <div class="menu-card-price">
+        K20.00
+       </div>
+       <p class="menu-card-description">Expertly brewed coffee from premium beans</p><button class="add-to-cart" onclick="addToCart('Premium Coffee', 20)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+     <div class="menu-card">
+      <div class="menu-card-image">
+       🍗
+      </div>
+      <div class="menu-card-content">
+       <h3 class="menu-card-title">Fried Chicken</h3>
+       <div class="menu-card-price">
+        K55.00
+       </div>
+       <p class="menu-card-description">Crispy golden chicken with signature seasoning</p><button class="add-to-cart" onclick="addToCart('Fried Chicken', 55)"> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="order">
+    <h2 class="section-title">Your Order</h2>
+    <div class="cart-container">
+     <h3 style="margin-bottom: 1rem; font-size: 1.8rem;">Shopping Cart</h3>
+     <div id="cart-items">
+      <p style="text-align: center; color: #666; padding: 2rem;">Your cart is empty</p>
+     </div>
+     <div class="cart-total">
+      Total: K<span id="cart-total">0.00</span>
+     </div><button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="showCheckout()"> <i class="fas fa-credit-card"></i> Proceed to Checkout </button>
+    </div>
+   </section>
+   <section class="section" id="education">
+    <h2 class="section-title">Grade 12 Online Classes</h2>
+    <div id="education-content">
+     <div class="course-grid">
+      <div class="course-card" onclick="showCourseTopics('physics')">
+       <div class="course-icon">
+        ⚛️
+       </div>
+       <h3 class="course-title">Physics</h3>
+       <p class="course-description">Comprehensive physics notes with detailed explanations, formulas, and real-world applications</p>
+       <ul class="topics-list">
+        <li>Newton's Laws of Motion</li>
+        <li>Electromagnetism</li>
+        <li>Quantum Physics</li>
+        <li>Thermodynamics</li>
+       </ul>
+      </div>
+      <div class="course-card" onclick="showCourseTopics('chemistry')">
+       <div class="course-icon">
+        🧪
+       </div>
+       <h3 class="course-title">Chemistry</h3>
+       <p class="course-description">Complete chemistry curriculum with molecular structures, reactions, and practical examples</p>
+       <ul class="topics-list">
+        <li>Atomic Structure</li>
+        <li>Chemical Bonding</li>
+        <li>Organic Chemistry Basics</li>
+        <li>Acids, Bases and pH</li>
+       </ul>
+      </div>
+      <div class="course-card" onclick="showCourseTopics('biology')">
+       <div class="course-icon">
+        🧬
+       </div>
+       <h3 class="course-title">Biology</h3>
+       <p class="course-description">In-depth biology covering cells, genetics, human systems, and ecosystems</p>
+       <ul class="topics-list">
+        <li>Cell Biology</li>
+        <li>Genetics &amp; DNA</li>
+        <li>Human Physiology</li>
+        <li>Ecology &amp; Evolution</li>
+       </ul>
+      </div>
+      <div class="course-card" onclick="showCourseTopics('mathematics')">
+       <div class="course-icon">
+        📐
+       </div>
+       <h3 class="course-title">Mathematics</h3>
+       <p class="course-description">Advanced math with step-by-step solutions and practice problems</p>
+       <ul class="topics-list">
+        <li>Calculus - Differentiation</li>
+        <li>Integration</li>
+        <li>Trigonometry</li>
+        <li>Statistics &amp; Probability</li>
+       </ul>
+      </div>
+      <div class="course-card" onclick="showCourseTopics('programming')">
+       <div class="course-icon">
+        💻
+       </div>
+       <h3 class="course-title">Programming</h3>
+       <p class="course-description">Learn coding with real examples in Python, C++, HTML/CSS, and JavaScript</p>
+       <ul class="topics-list">
+        <li>Python Programming</li>
+        <li>C++ Programming</li>
+        <li>HTML &amp; CSS</li>
+        <li>JavaScript</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="about">
+    <div class="about-section">
+     <div class="about-header">
+      <h2 class="about-title" id="about-owner-name">Adonis AI - The Liquid Programmer ✌️</h2>
+      <h3 class="about-subtitle" id="about-owner-title">Founder &amp; Visionary Developer</h3>
+     </div>
+     <div class="owner-slideshow"><img id="owner-photo" class="owner-photo" alt="Owner Photo">
+      <div class="owner-icon" id="owner-icon">
+       👨‍💻
+      </div>
+     </div>
+     <div style="text-align: center; margin-bottom: 2rem;"><button class="btn btn-primary" onclick="document.getElementById('owner-photo-input').click()"> <i class="fas fa-camera"></i> Upload Your Photo </button> <input type="file" id="owner-photo-input" accept="image/*" style="display: none;">
+     </div>
+     <div class="about-content">
+      <p style="margin-bottom: 1.5rem;">My name is <strong>Bornface Siyoto</strong>, a passionate and innovative Zambian programmer residing in the vibrant town of Mazabuka, Zambia. Known professionally as <strong>Adonis AI - The Liquid Programmer</strong>, I embody the fluidity and adaptability of modern technology.</p>
+      <p style="margin-bottom: 1.5rem;">As a visionary developer, I seamlessly blend technical excellence with creative innovation, crafting digital solutions that transform ideas into reality. My expertise spans multiple programming languages and frameworks, allowing me to navigate the ever-evolving landscape of technology with grace and precision.</p>
+      <p style="margin-bottom: 1.5rem;">Through Siyoto's Restaurant &amp; Learning Hub, I've created more than just a business—I've built a platform that bridges the gap between culinary excellence and educational empowerment. My mission is to serve the community not only with exceptional food but also with quality education that shapes future leaders.</p>
+      <p>Based in Mazabuka, I'm committed to leveraging technology to create opportunities, inspire learning, and deliver excellence in every project I undertake.</p>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="location">
+    <h2 class="section-title">Find Us</h2>
+    <div class="map-container"><iframe class="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=27.7275%2C-15.9167%2C27.7875%2C-15.8767&amp;layer=mapnik&amp;marker=-15.8967,27.7575" loading="lazy"> </iframe>
+     <div class="location-info">
+      <div class="location-card">
+       <div class="location-icon">
+        📍
+       </div>
+       <h4 style="margin-bottom: 0.5rem; color: #333;">Restaurant Location</h4>
+       <p style="color: #666;">Mazabuka District, Zambia</p><button class="btn btn-primary" style="margin-top: 1rem; padding: 0.5rem 1rem;" onclick="openDirections()"> <i class="fas fa-directions"></i> Get Directions </button>
+      </div>
+      <div class="location-card">
+       <div class="location-icon">
+        📞
+       </div>
+       <h4 style="margin-bottom: 0.5rem; color: #333;">Contact Us</h4>
+       <p style="color: #666;">WhatsApp: <span id="whatsapp-display">0774169681</span></p><button class="btn btn-primary" style="margin-top: 1rem; padding: 0.5rem 1rem;" onclick="openWhatsApp()"> <i class="fab fa-whatsapp"></i> Chat on WhatsApp </button>
+      </div>
+      <div class="location-card">
+       <div class="location-icon">
+        ⏰
+       </div>
+       <h4 style="margin-bottom: 0.5rem; color: #333;">Operating Hours</h4>
+       <p style="color: #666;">Monday - Sunday</p>
+       <p style="color: #666; margin-top: 0.5rem;">8:00 AM - 10:00 PM</p>
+       <p style="color: #667eea; margin-top: 0.5rem; font-weight: bold;" id="current-time-footer">--:--:-- CAT</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <footer style="background: rgba(0, 0, 0, 0.95); padding: 3rem 2rem; color: white; text-align: center;">
+    <p style="font-size: 1.2rem; margin-bottom: 1rem;">© 2024 Siyoto's Restaurant &amp; Learning Hub</p>
+    <p style="color: rgba(255, 255, 255, 0.7);">Developed by Adonis AI - The Liquid Programmer ✌️</p>
+    <p style="color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem;">Mazabuka, Zambia</p>
+   </footer>
+   <div class="whatsapp-float" onclick="openWhatsApp()"><i class="fab fa-whatsapp"></i>
+   </div>
+   <div class="toast" id="toast"></div>
+   <div class="modal" id="checkout-modal">
+    <div class="modal-content"><button class="close-modal" onclick="closeCheckout()">×</button>
+     <h2 style="margin-bottom: 2rem; color: #667eea;">Complete Your Order</h2>
+     <form class="checkout-form" id="checkout-form">
+      <div class="form-group"><label for="customer-name">Full Name *</label> <input type="text" id="customer-name" required placeholder="Enter your full name">
+      </div>
+      <div class="form-group"><label for="customer-phone">Contact Phone Number *</label> <input type="tel" id="customer-phone" required placeholder="0XXXXXXXXX">
+      </div>
+      <div class="form-group"><label for="delivery-address">Delivery Address *</label> <input type="text" id="delivery-address" required placeholder="Enter delivery address">
+      </div>
+      <div class="form-group"><label>Payment Method *</label>
+       <div class="payment-methods">
+        <div class="payment-method" data-method="cash" onclick="selectPayment('cash')"><i class="fas fa-money-bill-wave" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+         <div>
+          Cash
+         </div>
+        </div>
+        <div class="payment-method" data-method="mtn" onclick="selectPayment('mtn')"><i class="fas fa-mobile-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+         <div>
+          MTN
+         </div>
+        </div>
+        <div class="payment-method" data-method="airtel" onclick="selectPayment('airtel')"><i class="fas fa-mobile-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+         <div>
+          Airtel
+         </div>
+        </div>
+        <div class="payment-method" data-method="zamtel" onclick="selectPayment('zamtel')"><i class="fas fa-mobile-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+         <div>
+          Zamtel
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="mobile-number-input" id="mobile-number-input">
+       <div class="form-group"><label for="mobile-money-number">Mobile Money Number *</label> <input type="tel" id="mobile-money-number" maxlength="10" placeholder="Enter mobile money number (0XXXXXXXXX)">
+        <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> PIN request will be sent to this number</p>
+       </div>
+      </div>
+      <div class="pin-request-message" id="pin-request-message"><i class="fas fa-mobile-alt"></i>
+       <h4 style="color: #4caf50; margin: 0.5rem 0;">PIN Request Sent!</h4>
+       <p style="color: #666; margin: 0;">Please check your phone and enter your PIN to authorize payment of K<span id="payment-amount">0.00</span></p>
+      </div>
+      <div class="loading-spinner" id="order-loading"></div><button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="submit-order-btn"> <i class="fas fa-check-circle"></i> <span id="submit-btn-text">Place Order</span> </button>
+     </form>
+    </div>
+   </div>
+   <div class="modal" id="course-modal">
+    <div class="modal-content"><button class="close-modal" onclick="closeCourseModal()">×</button>
+     <div id="course-modal-content"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      restaurant_name: "Siyoto's Restaurant & Bakery",
+      restaurant_tagline: 'Exceptional Dining, Premium Bakery & Quality Education',
+      owner_name: 'Adonis AI - The Liquid Programmer ✌️',
+      owner_title: 'Founder & Visionary Developer',
+      whatsapp_number: '0774169681'
+    };
+
+    let cart = [];
+    let selectedPaymentMethod = '';
+    let currentRecordCount = 0;
+    let pinRequestSent = false;
+
+    const dataHandler = {
+      onDataChanged(data) {
+        currentRecordCount = data.length;
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize Data SDK');
+        }
+      }
+
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            document.getElementById('hero-title').textContent = config.restaurant_name || defaultConfig.restaurant_name;
+            document.getElementById('hero-subtitle').textContent = config.restaurant_tagline || defaultConfig.restaurant_tagline;
+            document.getElementById('about-owner-name').textContent = config.owner_name || defaultConfig.owner_name;
+            document.getElementById('about-owner-title').textContent = config.owner_title || defaultConfig.owner_title;
+            document.getElementById('whatsapp-display').textContent = config.whatsapp_number || defaultConfig.whatsapp_number;
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['restaurant_name', config.restaurant_name || defaultConfig.restaurant_name],
+            ['restaurant_tagline', config.restaurant_tagline || defaultConfig.restaurant_tagline],
+            ['owner_name', config.owner_name || defaultConfig.owner_name],
+            ['owner_title', config.owner_title || defaultConfig.owner_title],
+            ['whatsapp_number', config.whatsapp_number || defaultConfig.whatsapp_number]
+          ])
+        });
+      }
+
+      document.getElementById('checkout-form').addEventListener('submit', handleCheckoutSubmit);
+      document.getElementById('owner-photo-input').addEventListener('change', handlePhotoUpload);
+
+      updateClock();
+      setInterval(updateClock, 1000);
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const catOffset = 2 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const catTime = new Date(now.getTime() + (catOffset + localOffset) * 60000);
+      
+      const hours = String(catTime.getHours()).padStart(2, '0');
+      const minutes = String(catTime.getMinutes()).padStart(2, '0');
+      const seconds = String(catTime.getSeconds()).padStart(2, '0');
+      
+      const timeString = `${hours}:${minutes}:${seconds} CAT`;
+      document.getElementById('current-time').textContent = timeString;
+      document.getElementById('current-time-footer').textContent = timeString;
+    }
+
+    function addToCart(itemName, price) {
+      const existingItem = cart.find(item => item.name === itemName);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ name: itemName, price: price, quantity: 1 });
+      }
+      updateCart();
+      showToast(`${itemName} added to cart!`, 'success');
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Your cart is empty</p>';
+        cartTotal.textContent = '0.00';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        html += `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <strong style="font-size: 1.2rem;">${item.name}</strong>
+              <div style="color: #666; margin-top: 0.3rem;">K${item.price.toFixed(2)} each</div>
+            </div>
+            <div class="cart-item-controls">
+              <button class="qty-btn" onclick="decreaseQuantity(${index})">-</button>
+              <span style="margin: 0 1rem; font-size: 1.2rem; font-weight: bold;">${item.quantity}</span>
+              <button class="qty-btn" onclick="increaseQuantity(${index})">+</button>
+              <button class="qty-btn" style="background: #e74c3c; margin-left: 0.5rem;" onclick="removeFromCart(${index})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            <div style="font-size: 1.2rem; font-weight: bold; color: #e74c3c; min-width: 100px; text-align: right;">
+              K${itemTotal.toFixed(2)}
+            </div>
+          </div>
+        `;
+      });
+
+      cartItems.innerHTML = html;
+      cartTotal.textContent = total.toFixed(2);
+    }
+
+    function increaseQuantity(index) {
+      cart[index].quantity++;
+      updateCart();
+    }
+
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+        updateCart();
+      }
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+      showToast('Item removed from cart', 'error');
+    }
+
+    function showCheckout() {
+      if (cart.length === 0) {
+        showToast('Your cart is empty!', 'error');
+        return;
+      }
+      document.getElementById('checkout-modal').classList.add('active');
+      const total = parseFloat(document.getElementById('cart-total').textContent);
+      document.getElementById('payment-amount').textContent = total.toFixed(2);
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').classList.remove('active');
+      document.getElementById('checkout-form').reset();
+      selectedPaymentMethod = '';
+      pinRequestSent = false;
+      document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+      document.getElementById('mobile-number-input').classList.remove('active');
+      document.getElementById('pin-request-message').classList.remove('active');
+      document.getElementById('submit-btn-text').textContent = 'Place Order';
+    }
+
+    function selectPayment(method) {
+      selectedPaymentMethod = method;
+      pinRequestSent = false;
+      document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+      const selectedEl = document.querySelector(`[data-method="${method}"]`);
+      if (selectedEl) {
+        selectedEl.classList.add('selected');
+      }
+      
+      document.getElementById('pin-request-message').classList.remove('active');
+      
+      if (method !== 'cash') {
+        document.getElementById('mobile-number-input').classList.add('active');
+        document.getElementById('submit-btn-text').textContent = 'Send PIN Request';
+      } else {
+        document.getElementById('mobile-number-input').classList.remove('active');
+        document.getElementById('submit-btn-text').textContent = 'Place Order';
+      }
+    }
+
+    async function handleCheckoutSubmit(e) {
+      e.preventDefault();
+
+      if (!selectedPaymentMethod) {
+        showToast('Please select a payment method', 'error');
+        return;
+      }
+
+      if (selectedPaymentMethod !== 'cash') {
+        const mobileNumber = document.getElementById('mobile-money-number').value;
+        if (!mobileNumber || mobileNumber.length !== 10) {
+          showToast('Please enter a valid 10-digit mobile money number', 'error');
+          return;
+        }
+
+        if (!pinRequestSent) {
+          document.getElementById('pin-request-message').classList.add('active');
+          document.getElementById('submit-btn-text').textContent = 'Confirm Order';
+          pinRequestSent = true;
+          showToast('PIN request sent to your phone!', 'success');
+          return;
+        }
+      }
+
+      if (currentRecordCount >= 999) {
+        showToast('Maximum order limit reached. Please contact us directly.', 'error');
+        return;
+      }
+
+      const loading = document.getElementById('order-loading');
+      loading.classList.add('active');
+
+      const customerName = document.getElementById('customer-name').value;
+      const customerPhone = document.getElementById('customer-phone').value;
+      const mobileMoneyNumber = selectedPaymentMethod !== 'cash' ? document.getElementById('mobile-money-number').value : '';
+
+      const orderData = {
+        order_id: 'ORD-' + Date.now(),
+        customer_name: customerName,
+        customer_phone: customerPhone,
+        mobile_money_number: mobileMoneyNumber,
+        items: JSON.stringify(cart),
+        total_amount: parseFloat(document.getElementById('cart-total').textContent),
+        payment_method: selectedPaymentMethod,
+        order_date: new Date().toISOString(),
+        status: 'pending'
+      };
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(orderData);
+        loading.classList.remove('active');
+
+        if (result.isOk) {
+          showToast('Order placed successfully!', 'success');
+          closeCheckout();
+          cart = [];
+          updateCart();
+        } else {
+          showToast('Failed to place order. Please try again.', 'error');
+        }
+      }
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const photo = document.getElementById('owner-photo');
+          const icon = document.getElementById('owner-icon');
+          photo.src = e.target.result;
+          photo.style.display = 'block';
+          icon.style.display = 'none';
+          showToast('Photo uploaded successfully!', 'success');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function openWhatsApp() {
+      const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+      const phoneNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/^0/, '260');
+      window.open(`https://wa.me/${phoneNumber}`, '_blank', 'noopener,noreferrer');
+    }
+
+    function openDirections() {
+      const lat = -15.8967;
+      const lng = 27.7575;
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            window.open(`https://www.google.com/maps/dir/${userLat},${userLng}/${lat},${lng}`, '_blank', 'noopener,noreferrer');
+          },
+          () => {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank', 'noopener,noreferrer');
+            showToast('Opening restaurant location...', 'success');
+          }
+        );
+      } else {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank', 'noopener,noreferrer');
+        showToast('Opening restaurant location...', 'success');
+      }
+    }
+
+    function showCourseTopics(subject) {
+      const courses = getCourseData();
+      const course = courses[subject];
+      
+      let html = `
+        <h2 style="color: #667eea; margin-bottom: 2rem; font-size: 2.5rem;">
+          ${course.icon} ${course.title}
+        </h2>
+        <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
+          Click any topic to view detailed notes with examples and exercises
+        </p>
+      `;
+
+      course.topics.forEach((topic, index) => {
+        html += `
+          <div class="topic-card" onclick="showTopicNotes('${subject}', ${index})">
+            <h3>${topic.title} <i class="fas fa-chevron-right" style="float: right;"></i></h3>
+            <p>${topic.preview}</p>
+          </div>
+        `;
+      });
+
+      document.getElementById('course-modal-content').innerHTML = html;
+      document.getElementById('course-modal').classList.add('active');
+    }
+
+    function showTopicNotes(subject, topicIndex) {
+      const courses = getCourseData();
+      const course = courses[subject];
+      const topic = course.topics[topicIndex];
+      
+      let html = `
+        <button class="back-btn" onclick="showCourseTopics('${subject}')">
+          <i class="fas fa-arrow-left"></i> Back to ${course.title}
+        </button>
+        <h2 style="color: #667eea; margin-bottom: 2rem; font-size: 2.5rem;">
+          ${course.icon} ${topic.title}
+        </h2>
+        <div class="notes-container">
+          ${topic.notes}
+        </div>
+      `;
+
+      document.getElementById('course-modal-content').innerHTML = html;
+    }
+
+    function closeCourseModal() {
+      document.getElementById('course-modal').classList.remove('active');
+    }
+
+    function getCourseData() {
+      return {
+        physics: {
+          title: 'Physics - Grade 12',
+          icon: '⚛️',
+          topics: [
+            {
+              title: "Newton's Laws of Motion",
+              preview: "Foundation of classical mechanics - Force, mass, and acceleration relationships",
+              notes: `
+                <h3>Introduction</h3>
+                <p>Newton's three laws of motion form the foundation of classical mechanics and explain how objects move in response to forces. These laws were published by Sir Isaac Newton in 1687 in his work "Philosophiæ Naturalis Principia Mathematica".</p>
+
+                <h3>First Law - Law of Inertia</h3>
+                <p>An object at rest stays at rest, and an object in motion continues in motion with constant velocity unless acted upon by a net external force.</p>
+                
+                <h4>Key Concepts:</h4>
+                <ul>
+                  <li><strong>Inertia:</strong> The tendency of an object to resist changes in its state of motion</li>
+                  <li><strong>Mass:</strong> A measure of an object's inertia - greater mass means greater inertia</li>
+                  <li><strong>Net Force:</strong> The vector sum of all forces acting on an object</li>
+                  <li><strong>Equilibrium:</strong> When net force = 0, object is in equilibrium (at rest or constant velocity)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Real-World Examples</h5>
+                  <ul>
+                    <li><strong>Car Stopping:</strong> When a car suddenly stops, passengers jerk forward due to inertia - their bodies want to continue moving</li>
+                    <li><strong>Book on Table:</strong> A book on a table remains at rest until someone pushes it</li>
+                    <li><strong>Hockey Puck:</strong> A hockey puck slides across ice with minimal friction, demonstrating constant velocity</li>
+                    <li><strong>Seatbelts:</strong> Seatbelts prevent your body from continuing forward when a car stops suddenly</li>
+                  </ul>
+                </div>
+
+                <h3>Second Law - F = ma</h3>
+                <p>The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is the most important law for calculations.</p>
+                
+                <div class="formula-box">
+                  F = ma
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Force (N) = mass (kg) × acceleration (m/s²)
+                  </div>
+                </div>
+
+                <h4>Key Points:</h4>
+                <ul>
+                  <li><strong>Unit of force:</strong> Newton (N) = kg·m/s²</li>
+                  <li>1 Newton is the force needed to accelerate 1 kg at 1 m/s²</li>
+                  <li>Force and acceleration are <strong>vector quantities</strong> (have direction)</li>
+                  <li>Doubling force doubles acceleration; doubling mass halves acceleration</li>
+                  <li>Rearranged forms: a = F/m and m = F/a</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 1: Basic Force Calculation</h5>
+                  <p><strong>Problem:</strong> Calculate the force needed to accelerate a 10 kg object at 5 m/s²</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: m = 10 kg, a = 5 m/s²</p>
+                  <p>Using F = ma</p>
+                  <p>F = 10 kg × 5 m/s²</p>
+                  <p><strong>F = 50 N</strong></p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 2: Car Acceleration</h5>
+                  <p><strong>Problem:</strong> A 2000 kg car accelerates from rest to 20 m/s in 4 seconds. What force is acting on it?</p>
+                  <p><strong>Solution:</strong></p>
+                  <p><strong>Step 1:</strong> Find acceleration using a = (v - u)/t</p>
+                  <p>a = (20 - 0)/4 = 5 m/s²</p>
+                  <p><strong>Step 2:</strong> Find force using F = ma</p>
+                  <p>F = 2000 kg × 5 m/s²</p>
+                  <p><strong>F = 10,000 N = 10 kN</strong></p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 3: Finding Mass</h5>
+                  <p><strong>Problem:</strong> A force of 150 N causes an object to accelerate at 3 m/s². What is the object's mass?</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: F = 150 N, a = 3 m/s²</p>
+                  <p>Using m = F/a</p>
+                  <p>m = 150/3</p>
+                  <p><strong>m = 50 kg</strong></p>
+                </div>
+
+                <h3>Third Law - Action-Reaction</h3>
+                <p>For every action, there is an equal and opposite reaction. Forces always occur in pairs. These paired forces are called action-reaction pairs.</p>
+
+                <h4>Important Points:</h4>
+                <ul>
+                  <li>Action and reaction forces are <strong>equal in magnitude</strong></li>
+                  <li>Action and reaction forces act in <strong>opposite directions</strong></li>
+                  <li>Action and reaction forces act on <strong>different objects</strong> (crucial point!)</li>
+                  <li>Action and reaction forces occur <strong>simultaneously</strong></li>
+                  <li>Action and reaction forces are of the <strong>same type</strong> (both contact or both non-contact)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Real-World Examples of Action-Reaction Pairs</h5>
+                  <ul>
+                    <li><strong>Walking:</strong> 
+                      <br>Action: You push backwards on the ground
+                      <br>Reaction: Ground pushes you forward
+                    </li>
+                    <li><strong>Swimming:</strong> 
+                      <br>Action: You push water backwards
+                      <br>Reaction: Water pushes you forward
+                    </li>
+                    <li><strong>Rocket Propulsion:</strong> 
+                      <br>Action: Rocket pushes gas downward
+                      <br>Reaction: Gas pushes rocket upward
+                    </li>
+                    <li><strong>Jumping:</strong> 
+                      <br>Action: You push down on ground
+                      <br>Reaction: Ground pushes you up
+                    </li>
+                    <li><strong>Book on Table:</strong> 
+                      <br>Action: Book pushes down on table (weight)
+                      <br>Reaction: Table pushes up on book (normal force)
+                    </li>
+                  </ul>
+                </div>
+
+                <h3>Applications in Real Life</h3>
+                <ul>
+                  <li><strong>Vehicle Safety:</strong> Airbags deploy rapidly to increase collision time, reducing force (F = ma). Crumple zones extend collision time. Seatbelts prevent passengers from continuing forward due to inertia.</li>
+                  <li><strong>Sports:</strong> Athletes use Newton's laws - sprinters push hard on starting blocks (3rd law), heavy discus requires more force to throw (2nd law)</li>
+                  <li><strong>Space Travel:</strong> Rockets work in space using 3rd law - no air needed, just expelling gas</li>
+                  <li><strong>Engineering:</strong> Bridges and buildings designed considering forces and equilibrium (1st law)</li>
+                  <li><strong>Transportation:</strong> Heavier vehicles need more force to achieve same acceleration as lighter ones</li>
+                </ul>
+
+                <div class="exercise-box">
+                  <h5>🎯 Practice Exercises</h5>
+                  <ol>
+                    <li>A 5 kg object experiences a net force of 20 N. Calculate its acceleration.</li>
+                    <li>What force is needed to accelerate a 1500 kg car at 3 m/s²?</li>
+                    <li>A 0.5 kg ball is thrown with a force of 10 N. What is its acceleration?</li>
+                    <li>Explain why it's harder to push a full shopping cart than an empty one using Newton's laws.</li>
+                    <li>A person weighing 600 N stands on a floor. What force does the floor exert on the person? Which law explains this?</li>
+                    <li>A 1200 kg car decelerates from 25 m/s to rest in 5 seconds. What braking force is applied?</li>
+                    <li>Identify the action-reaction pair when you sit on a chair.</li>
+                    <li>Why do rockets work in space where there's no air?</li>
+                  </ol>
+                </div>
+
+                <div class="exercise-box">
+                  <h5>✅ Detailed Answers</h5>
+                  <ol>
+                    <li><strong>a = F/m = 20/5 = 4 m/s²</strong></li>
+                    <li><strong>F = ma = 1500 × 3 = 4500 N = 4.5 kN</strong></li>
+                    <li><strong>a = F/m = 10/0.5 = 20 m/s²</strong></li>
+                    <li>Full cart has more mass, therefore more inertia (1st law). More force is required to overcome greater inertia and achieve the same acceleration (2nd law).</li>
+                    <li>600 N upward. Newton's 3rd law - the person pushes down on floor with 600 N, so floor pushes up with equal and opposite force of 600 N.</li>
+                    <li>First find deceleration: a = (v-u)/t = (0-25)/5 = -5 m/s². Then F = ma = 1200 × (-5) = -6000 N. The braking force is 6000 N opposing motion.</li>
+                    <li>Action: You push down on the chair with your weight. Reaction: Chair pushes up on you with equal force (this is what you feel as support).</li>
+                    <li>Rockets work by 3rd law action-reaction. The rocket expels gas backwards (action), and the gas pushes the rocket forward (reaction). No air is needed - the interaction is between rocket and expelled gas.</li>
+                  </ol>
+                </div>
+
+                <h3>Common Misconceptions</h3>
+                <ul>
+                  <li><strong>Myth:</strong> "Heavier objects fall faster" - FALSE. All objects fall at same rate in vacuum (no air resistance)</li>
+                  <li><strong>Myth:</strong> "Force is needed to keep object moving" - FALSE. Force only needed to change motion, not maintain it</li>
+                  <li><strong>Myth:</strong> "Action-reaction forces cancel out" - FALSE. They act on different objects so can't cancel</li>
+                  <li><strong>Myth:</strong> "Larger object exerts larger force" - FALSE. Action-reaction pairs are always equal magnitude</li>
+                </ul>
+              `
+            },
+            {
+              title: "Electromagnetism",
+              preview: "Electric and magnetic fields, electromagnetic induction, and applications",
+              notes: `
+                <h3>Introduction to Electromagnetism</h3>
+                <p>Electromagnetism describes the fundamental relationship between electricity and magnetism. These two phenomena are deeply interconnected: moving electric charges create magnetic fields, and changing magnetic fields induce electric currents. This relationship is one of the four fundamental forces in nature.</p>
+
+                <h3>Electric Fields</h3>
+                <p>An electric field is a region of space where an electric charge experiences a force. Electric fields are created by electric charges and can exert forces on other charges within the field.</p>
+                
+                <div class="formula-box">
+                  E = F/q
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Electric Field Strength (N/C or V/m) = Force (N) / Charge (C)
+                  </div>
+                </div>
+
+                <h4>Key Concepts:</h4>
+                <ul>
+                  <li><strong>Electric Field Lines:</strong> Point away from positive charges and toward negative charges</li>
+                  <li><strong>Field Strength:</strong> Depends on charge magnitude and distance (inverse square law)</li>
+                  <li><strong>Units:</strong> Newton per Coulomb (N/C) or Volts per meter (V/m) - these are equivalent</li>
+                  <li><strong>Direction:</strong> Field direction is the direction a positive test charge would move</li>
+                  <li><strong>Uniform Fields:</strong> Between parallel plates, field is uniform (constant strength and direction)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example: Electric Field</h5>
+                  <p><strong>Problem:</strong> A charge of 4 × 10⁻⁶ C experiences a force of 0.08 N in an electric field. Calculate the electric field strength.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: q = 4 × 10⁻⁶ C, F = 0.08 N</p>
+                  <p>Using E = F/q</p>
+                  <p>E = 0.08 / (4 × 10⁻⁶)</p>
+                  <p>E = 0.08 / 0.000004</p>
+                  <p><strong>E = 20,000 N/C = 20 kN/C</strong></p>
+                </div>
+
+                <h3>Magnetic Fields</h3>
+                <p>Magnetic fields are produced by moving charges (electric currents) and magnetic materials. Unlike electric fields which can be created by stationary charges, magnetic fields require motion.</p>
+
+                <h4>Properties of Magnetic Fields:</h4>
+                <ul>
+                  <li><strong>Field Lines:</strong> Form closed loops from North to South pole outside magnet, South to North inside</li>
+                  <li><strong>Current-Carrying Wires:</strong> Create circular magnetic fields around the wire</li>
+                  <li><strong>Direction:</strong> Determined by right-hand rules</li>
+                  <li><strong>Strength:</strong> Measured in Tesla (T) or Weber per square meter (Wb/m²)</li>
+                  <li><strong>No Magnetic Monopoles:</strong> Magnetic poles always come in N-S pairs (can't have isolated N or S pole)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Right-Hand Rules</h5>
+                  <p><strong>For a straight wire carrying current:</strong></p>
+                  <ul>
+                    <li>Point thumb in direction of conventional current (+ to -)</li>
+                    <li>Fingers curl in direction of magnetic field</li>
+                    <li>Field circles the wire clockwise when viewed from current direction</li>
+                  </ul>
+                  <p><strong>For a solenoid (coil):</strong></p>
+                  <ul>
+                    <li>Curl fingers in direction of current through coil</li>
+                    <li>Thumb points to North pole of electromagnet</li>
+                    <li>Creates strong uniform field inside coil</li>
+                  </ul>
+                  <p><strong>For force on current-carrying wire (Motor Rule):</strong></p>
+                  <ul>
+                    <li>First finger: Field direction (N to S)</li>
+                    <li>Second finger: Current direction (+ to -)</li>
+                    <li>Thumb: Force/Motion direction</li>
+                  </ul>
+                </div>
+
+                <h3>Electromagnetic Induction</h3>
+                <p>Electromagnetic induction is the production of an electromotive force (EMF) across a conductor when it is exposed to a changing magnetic field. This is the principle behind generators, transformers, and many other electrical devices.</p>
+
+                <div class="formula-box">
+                  EMF = -N(ΔΦ/Δt)
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Faraday's Law of Electromagnetic Induction
+                  </div>
+                </div>
+
+                <h4>Understanding the Formula:</h4>
+                <ul>
+                  <li><strong>EMF:</strong> Electromotive force (voltage induced), measured in Volts (V)</li>
+                  <li><strong>N:</strong> Number of turns in the coil</li>
+                  <li><strong>Φ (phi):</strong> Magnetic flux = B × A × cos(θ), measured in Weber (Wb)</li>
+                  <li><strong>ΔΦ:</strong> Change in magnetic flux</li>
+                  <li><strong>Δt:</strong> Time interval in seconds</li>
+                  <li><strong>Negative sign:</strong> Represents Lenz's Law (induced current opposes change)</li>
+                </ul>
+
+                <h4>Ways to Induce EMF:</h4>
+                <ul>
+                  <li>Move a magnet into or out of a coil</li>
+                  <li>Move a coil into or out of a magnetic field</li>
+                  <li>Change the strength of the magnetic field</li>
+                  <li>Change the area of coil in the field</li>
+                  <li>Rotate the coil in the magnetic field</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 1: Basic Induction</h5>
+                  <p><strong>Problem:</strong> A coil with 50 turns experiences a flux change from 0.2 Wb to 0.8 Wb in 0.1 seconds. Calculate the induced EMF.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: N = 50 turns, Φ₁ = 0.2 Wb, Φ₂ = 0.8 Wb, Δt = 0.1 s</p>
+                  <p><strong>Step 1:</strong> Calculate change in flux</p>
+                  <p>ΔΦ = Φ₂ - Φ₁ = 0.8 - 0.2 = 0.6 Wb</p>
+                  <p><strong>Step 2:</strong> Apply Faraday's Law</p>
+                  <p>EMF = N(ΔΦ/Δt) = 50 × (0.6/0.1)</p>
+                  <p>EMF = 50 × 6</p>
+                  <p><strong>EMF = 300 V</strong></p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 2: Decreasing Flux</h5>
+                  <p><strong>Problem:</strong> A 100-turn coil has flux reduced from 0.5 Wb to 0.1 Wb in 0.2 seconds. Find induced EMF.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>N = 100, ΔΦ = 0.1 - 0.5 = -0.4 Wb, Δt = 0.2 s</p>
+                  <p>EMF = 100 × (-0.4/0.2) = 100 × (-2)</p>
+                  <p><strong>EMF = -200 V</strong></p>
+                  <p>The negative sign indicates the EMF opposes the decrease in flux (Lenz's Law)</p>
+                </div>
+
+                <h3>Lenz's Law</h3>
+                <p>The direction of the induced current (and its magnetic field) is such that it opposes the change that caused it. This is a consequence of energy conservation - you must do work against this opposition to induce current.</p>
+
+                <div class="example-box">
+                  <h5>📝 Understanding Lenz's Law</h5>
+                  <p><strong>Scenario 1: Magnet Moving Toward Coil</strong></p>
+                  <ul>
+                    <li>North pole approaches coil</li>
+                    <li>Flux through coil increases</li>
+                    <li>Induced current creates North pole facing the magnet</li>
+                    <li>This repels the approaching magnet (opposes change)</li>
+                  </ul>
+                  <p><strong>Scenario 2: Magnet Moving Away from Coil</strong></p>
+                  <ul>
+                    <li>North pole moves away</li>
+                    <li>Flux through coil decreases</li>
+                    <li>Induced current creates South pole facing the magnet</li>
+                    <li>This attracts the departing magnet (opposes change)</li>
+                  </ul>
+                </div>
+
+                <h3>Applications of Electromagnetism</h3>
+                
+                <h4>1. Electric Generators</h4>
+                <ul>
+                  <li><strong>Principle:</strong> Convert mechanical energy to electrical energy using electromagnetic induction</li>
+                  <li><strong>How it works:</strong> Rotating coil in magnetic field experiences changing flux, inducing EMF</li>
+                  <li><strong>AC vs DC:</strong> Slip rings produce AC, commutator produces DC</li>
+                  <li><strong>Used in:</strong> Power plants, car alternators, wind turbines</li>
+                </ul>
+
+                <h4>2. Transformers</h4>
+                <ul>
+                  <li><strong>Principle:</strong> Change voltage levels in AC circuits using mutual induction</li>
+                  <li><strong>Formula:</strong> Vₛ/Vₚ = Nₛ/Nₚ (voltage ratio = turns ratio)</li>
+                  <li><strong>Step-up:</strong> Increases voltage (Nₛ > Nₚ), reduces current</li>
+                  <li><strong>Step-down:</strong> Decreases voltage (Nₛ < Nₚ), increases current</li>
+                  <li><strong>Used in:</strong> Power distribution, phone chargers, electronics</li>
+                </ul>
+
+                <h4>3. Electric Motors</h4>
+                <ul>
+                  <li><strong>Principle:</strong> Convert electrical energy to mechanical energy using force on current-carrying conductor</li>
+                  <li><strong>Force:</strong> F = BIL (Magnetic field × Current × Length)</li>
+                  <li><strong>How it works:</strong> Current in coil experiences force in magnetic field, causing rotation</li>
+                  <li><strong>Used in:</strong> Fans, washing machines, electric vehicles, industrial machinery</li>
+                </ul>
+
+                <h4>4. Other Applications</h4>
+                <ul>
+                  <li><strong>Induction Cookers:</strong> Changing magnetic field induces currents in cookware, heating it directly</li>
+                  <li><strong>MRI Machines:</strong> Strong magnetic fields align atoms for medical imaging</li>
+                  <li><strong>Electromagnets:</strong> Cranes, maglev trains, door locks, speakers</li>
+                  <li><strong>Wireless Charging:</strong> Induction between transmitter and receiver coils</li>
+                  <li><strong>Metal Detectors:</strong> Changing magnetic field detects metal objects</li>
+                </ul>
+
+                <div class="exercise-box">
+                  <h5>🎯 Practice Exercises</h5>
+                  <ol>
+                    <li>A charge of 5 × 10⁻⁶ C experiences a force of 0.02 N in an electric field. Calculate the electric field strength.</li>
+                    <li>Explain why a compass needle points North using concepts of magnetism.</li>
+                    <li>A coil of 100 turns has its flux reduced from 0.5 Wb to 0.1 Wb in 0.2 seconds. Calculate the induced EMF.</li>
+                    <li>Describe the energy transformation in an electric generator.</li>
+                    <li>Why does a magnet falling through a copper tube slow down? (Explain using Lenz's Law)</li>
+                    <li>A transformer has 200 turns in the primary coil and 50 turns in the secondary. If the primary voltage is 240 V, what is the secondary voltage?</li>
+                    <li>State three ways to increase the EMF induced in a coil.</li>
+                    <li>Explain why transformers only work with AC, not DC.</li>
+                  </ol>
+                </div>
+
+                <div class="exercise-box">
+                  <h5>✅ Detailed Answers</h5>
+                  <ol>
+                    <li>E = F/q = 0.02/(5 × 10⁻⁶) = 0.02/0.000005 = <strong>4000 N/C or 4 kN/C</strong></li>
+                    <li>Earth has a magnetic field with magnetic north near geographic North. A compass needle is a small magnet - its north pole is attracted to Earth's magnetic north pole, causing it to align north-south.</li>
+                    <li>ΔΦ = 0.1 - 0.5 = -0.4 Wb. EMF = N(ΔΦ/Δt) = 100 × (-0.4/0.2) = 100 × (-2) = <strong>-200 V</strong>. Magnitude is 200 V.</li>
+                    <li>Mechanical (kinetic/rotational) energy → Electrical energy. The mechanical rotation of the coil in a magnetic field causes changing magnetic flux, which induces an EMF via electromagnetic induction (Faraday's Law).</li>
+                    <li>As the magnet falls, it induces currents in the copper tube (electromagnetic induction). By Lenz's Law, these induced currents create a magnetic field that opposes the motion of the falling magnet. This opposition acts as a braking force, slowing the magnet's fall. Energy is conserved - kinetic energy converts to electrical energy (heat in the tube).</li>
+                    <li>Using Vₛ/Vₚ = Nₛ/Nₚ: Vₛ/240 = 50/200. Vₛ = 240 × (50/200) = 240 × 0.25 = <strong>60 V</strong>. This is a step-down transformer.</li>
+                    <li>Three ways to increase induced EMF: (1) Use more turns in the coil (increase N), (2) Change the flux more rapidly (decrease Δt), (3) Use a stronger magnet or increase the rate of change of flux (increase ΔΦ)</li>
+                    <li>Transformers require a <strong>changing</strong> magnetic flux to induce EMF. AC constantly changes direction and magnitude, providing the necessary changing flux. DC is constant (steady current), producing a constant magnetic field with no change in flux, so no EMF is induced in the secondary coil. The primary coil would only act as a resistor with DC.</li>
+                  </ol>
+                </div>
+              `
+            },
+            {
+              title: "Quantum Physics",
+              preview: "Wave-particle duality, photoelectric effect, atomic structure, and quantum behavior",
+              notes: `
+                <h3>Introduction to Quantum Physics</h3>
+                <p>Quantum physics explores the behavior of matter and energy at the atomic and subatomic scales. At these tiny scales, the classical laws of physics no longer apply, and particles exhibit bizarre behaviors like existing in multiple states simultaneously and behaving as both particles and waves.</p>
+
+                <h3>Wave-Particle Duality</h3>
+                <p>One of the most mind-bending concepts in quantum physics: light and matter exhibit both wave and particle properties depending on how we observe them. This dual nature is fundamental to quantum mechanics.</p>
+
+                <h4>Photon Energy</h4>
+                <p>Light behaves as discrete packets of energy called photons. The energy of each photon depends on its frequency.</p>
+
+                <div class="formula-box">
+                  E = hf = hc/λ
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Energy = Planck's constant × frequency = (Planck's constant × speed of light) / wavelength
+                  </div>
+                </div>
+
+                <h4>Key Constants:</h4>
+                <ul>
+                  <li><strong>h:</strong> Planck's constant = 6.626 × 10⁻³⁴ J·s</li>
+                  <li><strong>c:</strong> Speed of light = 3.00 × 10⁸ m/s</li>
+                  <li><strong>E:</strong> Energy in Joules (J)</li>
+                  <li><strong>f:</strong> Frequency in Hertz (Hz)</li>
+                  <li><strong>λ (lambda):</strong> Wavelength in meters (m)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 1: Photon Energy from Frequency</h5>
+                  <p><strong>Problem:</strong> Calculate the energy of a photon with frequency 6 × 10¹⁴ Hz.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: f = 6 × 10¹⁴ Hz, h = 6.626 × 10⁻³⁴ J·s</p>
+                  <p>Using E = hf</p>
+                  <p>E = (6.626 × 10⁻³⁴) × (6 × 10¹⁴)</p>
+                  <p>E = 39.756 × 10⁻²⁰</p>
+                  <p><strong>E = 3.98 × 10⁻¹⁹ J</strong></p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 2: Photon Energy from Wavelength</h5>
+                  <p><strong>Problem:</strong> Green light has wavelength 500 nm. Calculate its photon energy.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>First convert wavelength: 500 nm = 500 × 10⁻⁹ m = 5 × 10⁻⁷ m</p>
+                  <p>Using E = hc/λ</p>
+                  <p>E = (6.626 × 10⁻³⁴ × 3 × 10⁸) / (5 × 10⁻⁷)</p>
+                  <p>E = (19.878 × 10⁻²⁶) / (5 × 10⁻⁷)</p>
+                  <p>E = 3.976 × 10⁻¹⁹ J</p>
+                  <p><strong>E ≈ 3.98 × 10⁻¹⁹ J or 2.48 eV</strong></p>
+                </div>
+
+                <h3>Photoelectric Effect</h3>
+                <p>When light shines on a metal surface, it can eject electrons. This phenomenon proves light has particle properties (photons) and won Albert Einstein the Nobel Prize in 1921.</p>
+
+                <div class="formula-box">
+                  KE_max = hf - φ = hf - hf₀
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Maximum Kinetic Energy = Photon Energy - Work Function
+                  </div>
+                </div>
+
+                <h4>Key Terms:</h4>
+                <ul>
+                  <li><strong>Work Function (φ):</strong> Minimum energy needed to eject an electron from metal surface</li>
+                  <li><strong>Threshold Frequency (f₀):</strong> Minimum frequency for photoelectric effect to occur (φ = hf₀)</li>
+                  <li><strong>Stopping Potential (V_s):</strong> Voltage needed to stop most energetic photoelectrons</li>
+                  <li><strong>KE_max:</strong> Maximum kinetic energy of ejected electrons = eV_s</li>
+                </ul>
+
+                <h4>Key Observations:</h4>
+                <ul>
+                  <li>Below threshold frequency, <strong>NO electrons ejected</strong> regardless of light intensity</li>
+                  <li>Above threshold, electron KE increases with frequency, not intensity</li>
+                  <li>Number of electrons ejected depends on light intensity (more photons = more electrons)</li>
+                  <li>Electron emission is instantaneous (< 10⁻⁹ s) - no delay time</li>
+                  <li>Each photon can only eject one electron (one-to-one interaction)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 3: Photoelectric Effect</h5>
+                  <p><strong>Problem:</strong> Light of frequency 8 × 10¹⁴ Hz strikes sodium metal with work function 3.68 × 10⁻¹⁹ J. Calculate: (a) photon energy, (b) maximum KE of ejected electrons, (c) maximum velocity of electrons.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p><strong>(a) Photon Energy:</strong></p>
+                  <p>E = hf = (6.626 × 10⁻³⁴) × (8 × 10¹⁴)</p>
+                  <p>E = 5.30 × 10⁻¹⁹ J</p>
+                  
+                  <p><strong>(b) Maximum KE:</strong></p>
+                  <p>KE_max = E - φ = 5.30 × 10⁻¹⁹ - 3.68 × 10⁻¹⁹</p>
+                  <p><strong>KE_max = 1.62 × 10⁻¹⁹ J</strong></p>
+                  
+                  <p><strong>(c) Maximum Velocity:</strong></p>
+                  <p>KE = ½mv², so v = √(2KE/m)</p>
+                  <p>Electron mass m = 9.11 × 10⁻³¹ kg</p>
+                  <p>v = √(2 × 1.62 × 10⁻¹⁹ / 9.11 × 10⁻³¹)</p>
+                  <p>v = √(3.55 × 10¹¹)</p>
+                  <p><strong>v = 5.96 × 10⁵ m/s = 596 km/s</strong></p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 4: Threshold Frequency</h5>
+                  <p><strong>Problem:</strong> Potassium has work function 3.2 × 10⁻¹⁹ J. Calculate: (a) threshold frequency, (b) threshold wavelength.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p><strong>(a) Threshold Frequency:</strong></p>
+                  <p>At threshold: φ = hf₀, so f₀ = φ/h</p>
+                  <p>f₀ = (3.2 × 10⁻¹⁹) / (6.626 × 10⁻³⁴)</p>
+                  <p><strong>f₀ = 4.83 × 10¹⁴ Hz</strong></p>
+                  
+                  <p><strong>(b) Threshold Wavelength:</strong></p>
+                  <p>λ₀ = c/f₀ = (3 × 10⁸) / (4.83 × 10¹⁴)</p>
+                  <p>λ₀ = 6.21 × 10⁻⁷ m</p>
+                  <p><strong>λ₀ = 621 nm (orange-red light)</strong></p>
+                </div>
+
+                <h3>De Broglie Wavelength</h3>
+                <p>Louis de Broglie proposed that if light can behave as particles, then particles should behave as waves. All matter has a wavelength inversely proportional to its momentum.</p>
+
+                <div class="formula-box">
+                  λ = h/p = h/mv
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Wavelength = Planck's constant / momentum
+                  </div>
+                </div>
+
+                <h4>Important Points:</h4>
+                <ul>
+                  <li>Larger momentum (heavy or fast objects) → shorter wavelength</li>
+                  <li>For everyday objects, wavelength is incredibly tiny (undetectable)</li>
+                  <li>For electrons and atoms, wavelength is significant</li>
+                  <li>Confirmed by electron diffraction experiments</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 5: Electron Wavelength</h5>
+                  <p><strong>Problem:</strong> Calculate the de Broglie wavelength of an electron (mass = 9.11 × 10⁻³¹ kg) moving at 2 × 10⁶ m/s.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>First find momentum: p = mv</p>
+                  <p>p = (9.11 × 10⁻³¹) × (2 × 10⁶)</p>
+                  <p>p = 1.822 × 10⁻²⁴ kg·m/s</p>
+                  <p>Now find wavelength: λ = h/p</p>
+                  <p>λ = (6.626 × 10⁻³⁴) / (1.822 × 10⁻²⁴)</p>
+                  <p><strong>λ = 3.64 × 10⁻¹⁰ m = 0.364 nm</strong></p>
+                  <p>This is comparable to atomic spacing, explaining why electrons show diffraction!</p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 6: Comparing Wavelengths</h5>
+                  <p><strong>Problem:</strong> Compare de Broglie wavelength of: (a) electron at 10⁶ m/s, (b) bullet (10 g) at 300 m/s</p>
+                  <p><strong>Solution:</strong></p>
+                  <p><strong>(a) Electron:</strong></p>
+                  <p>λ = h/mv = (6.626 × 10⁻³⁴) / (9.11 × 10⁻³¹ × 10⁶)</p>
+                  <p>λ = 7.27 × 10⁻¹⁰ m = 0.727 nm ✓ detectable</p>
+                  
+                  <p><strong>(b) Bullet:</strong></p>
+                  <p>λ = (6.626 × 10⁻³⁴) / (0.01 × 300)</p>
+                  <p>λ = 2.21 × 10⁻³⁴ m ✗ far too small to detect</p>
+                  <p>This shows why quantum effects aren't seen in everyday objects!</p>
+                </div>
+
+                <h3>Energy Quantization in Atoms</h3>
+                <p>Electrons in atoms can only occupy specific energy levels (quantized energies). They cannot exist between these levels.</p>
+
+                <h4>Bohr Model of Hydrogen:</h4>
+                <ul>
+                  <li>Electrons orbit nucleus in specific allowed orbits (energy levels)</li>
+                  <li>Energy levels: E_n = -13.6/n² eV (for hydrogen), where n = 1, 2, 3...</li>
+                  <li>Ground state: n = 1 (lowest energy, most stable)</li>
+                  <li>Excited states: n = 2, 3, 4... (higher energy, less stable)</li>
+                  <li>Electron transitions between levels emit/absorb photons</li>
+                  <li>Photon energy = difference between energy levels: E = E₂ - E₁ = hf</li>
+                </ul>
+
+                <h3>Heisenberg Uncertainty Principle</h3>
+                <p>You cannot simultaneously know both position and momentum of a particle with perfect accuracy. The more precisely you know one, the less precisely you know the other.</p>
+
+                <div class="formula-box">
+                  Δx × Δp ≥ h/4π
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Uncertainty in position × Uncertainty in momentum ≥ constant
+                  </div>
+                </div>
+
+                <p>This isn't due to measurement limitations - it's a fundamental property of nature!</p>
+
+                <h3>Applications of Quantum Physics</h3>
+                <ul>
+                  <li><strong>Solar Cells:</strong> Use photoelectric effect to convert sunlight to electricity</li>
+                  <li><strong>LEDs:</strong> Emit light when electrons drop between quantized energy levels</li>
+                  <li><strong>Lasers:</strong> Produce coherent light through stimulated emission between energy levels</li>
+                  <li><strong>Electron Microscopes:</strong> Use wave nature of electrons for high-resolution imaging</li>
+                  <li><strong>Quantum Computing:</strong> Exploits superposition and entanglement for powerful computation</li>
+                  <li><strong>Photocopiers:</strong> Use photoelectric effect in charging process</li>
+                  <li><strong>Night Vision:</strong> Detects infrared photons using photoelectric effect</li>
+                  <li><strong>Medical Imaging:</strong> PET scans use quantum properties of positron emission</li>
+                </ul>
+
+                <div class="exercise-box">
+                  <h5>🎯 Practice Exercises</h5>
+                  <ol>
+                    <li>Calculate the energy of a photon with wavelength 400 nm (use c = λf).</li>
+                    <li>What is the threshold frequency for a metal with work function 4.5 × 10⁻¹⁹ J?</li>
+                    <li>Find the de Broglie wavelength of a 0.05 kg ball moving at 20 m/s. Why don't we observe its wave properties?</li>
+                    <li>Explain why the photoelectric effect cannot be explained by classical wave theory of light.</li>
+                    <li>Why is the uncertainty principle not noticeable in everyday life?</li>
+                    <li>Light of frequency 7 × 10¹⁴ Hz ejects electrons with maximum KE of 1.5 × 10⁻¹⁹ J. Calculate the work function of the metal.</li>
+                    <li>An electron has wavelength 1 nm. Calculate its speed.</li>
+                    <li>Why do metals have different threshold frequencies?</li>
+                  </ol>
+                </div>
+
+                <div class="exercise-box">
+                  <h5>✅ Detailed Answers</h5>
+                  <ol>
+                    <li>λ = 400 nm = 4 × 10⁻⁷ m. First find f = c/λ = (3 × 10⁸)/(4 × 10⁻⁷) = 7.5 × 10¹⁴ Hz. Then E = hf = (6.626 × 10⁻³⁴)(7.5 × 10¹⁴) = <strong>4.97 × 10⁻¹⁹ J or 3.1 eV</strong></li>
+                    
+                    <li>f₀ = φ/h = (4.5 × 10⁻¹⁹)/(6.626 × 10⁻³⁴) = <strong>6.79 × 10¹⁴ Hz</strong></li>
+                    
+                    <li>λ = h/mv = (6.626 × 10⁻³⁴)/(0.05 × 20) = <strong>6.626 × 10⁻³⁴ m</strong>. This is unimaginably small compared to the ball's size, so wave properties are completely undetectable. Quantum effects only matter at atomic scales.</li>
+                    
+                    <li>Classical wave theory predicts: (1) electron ejection should depend on intensity, not frequency - FALSE; (2) there should be a time delay while electron absorbs enough energy - FALSE (emission is instant); (3) increasing intensity should increase electron KE - FALSE (only frequency affects KE). Wave theory completely fails to explain these observations. Only particle (photon) model works.</li>
+                    
+                    <li>h is extremely small (6.626 × 10⁻³⁴). For macroscopic objects with large mass and momentum, the uncertainty Δx = h/(4πΔp) becomes negligibly tiny. For example, for a 1 kg object with Δp = 0.01 kg·m/s, Δx ≈ 10⁻³² m - far smaller than any atom!</li>
+                    
+                    <li>E = hf = (6.626 × 10⁻³⁴)(7 × 10¹⁴) = 4.638 × 10⁻¹⁹ J. Using KE_max = hf - φ: 1.5 × 10⁻¹⁹ = 4.638 × 10⁻¹⁹ - φ. Therefore φ = 4.638 × 10⁻¹⁹ - 1.5 × 10⁻¹⁹ = <strong>3.14 × 10⁻¹⁹ J or 1.96 eV</strong></li>
+                    
+                    <li>λ = h/mv, so v = h/(mλ). v = (6.626 × 10⁻³⁴)/[(9.11 × 10⁻³¹)(1 × 10⁻⁹)] = (6.626 × 10⁻³⁴)/(9.11 × 10⁻⁴⁰) = <strong>7.27 × 10⁵ m/s = 727 km/s</strong>. This is about 0.24% the speed of light!</li>
+                    
+                    <li>Different metals have different work functions (φ) because: (1) electrons are bound with different strengths depending on the metal's atomic structure, (2) surface electron arrangements differ, (3) chemical bonding varies. Since f₀ = φ/h, different φ values give different threshold frequencies. More tightly bound electrons need higher frequency photons to be ejected.</li>
+                  </ol>
+                </div>
+
+                <h3>Why Quantum Physics Matters</h3>
+                <p>Quantum physics isn't just theoretical - it underlies much of modern technology:</p>
+                <ul>
+                  <li>Your smartphone processor uses quantum tunneling</li>
+                  <li>LED lights and laser pointers rely on quantized energy levels</li>
+                  <li>Solar panels convert light to electricity via photoelectric effect</li>
+                  <li>MRI machines use quantum spin properties</li>
+                  <li>Future quantum computers will revolutionize computing</li>
+                </ul>
+              `
+            },
+            {
+              title: "Thermodynamics",
+              preview: "Heat, work, energy transfer, laws of thermodynamics, and heat engines",
+              notes: `
+                <h3>Introduction to Thermodynamics</h3>
+                <p>Thermodynamics is the study of heat, work, temperature, and energy transformations. It governs everything from car engines to refrigerators, from power plants to your body's metabolism. The laws of thermodynamics are fundamental to understanding energy in the universe.</p>
+
+                <h3>Zeroth Law of Thermodynamics</h3>
+                <p>If two systems are each in thermal equilibrium with a third system, then they are in thermal equilibrium with each other.</p>
+                
+                <h4>Key Concepts:</h4>
+                <ul>
+                  <li>This law establishes the concept of <strong>temperature</strong></li>
+                  <li><strong>Thermal equilibrium:</strong> No net heat flow between systems (same temperature)</li>
+                  <li>Foundation for thermometers and temperature measurement</li>
+                  <li>Seems obvious but must be stated as basis for other laws</li>
+                  <li>Example: If A and B are both at 25°C, they're in equilibrium with each other</li>
+                </ul>
+
+                <h3>First Law of Thermodynamics</h3>
+                <p>Energy cannot be created or destroyed, only transformed from one form to another. This is the law of conservation of energy applied to thermodynamic systems.</p>
+
+                <div class="formula-box">
+                  ΔU = Q - W
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Change in Internal Energy = Heat Added to System - Work Done by System
+                  </div>
+                </div>
+
+                <h4>Understanding the Variables:</h4>
+                <ul>
+                  <li><strong>ΔU:</strong> Change in internal energy (total energy of all molecules)</li>
+                  <li><strong>Q:</strong> Heat transferred
+                    <ul>
+                      <li>Positive (+) when heat added to system</li>
+                      <li>Negative (-) when heat removed from system</li>
+                    </ul>
+                  </li>
+                  <li><strong>W:</strong> Work done
+                    <ul>
+                      <li>Positive (+) when system does work on surroundings</li>
+                      <li>Negative (-) when surroundings do work on system</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <h4>Sign Conventions Summary:</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                  <tr style="background: #667eea; color: white;">
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Quantity</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Positive (+)</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Negative (-)</th>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Q (Heat)</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Into system</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Out of system</td>
+                  </tr>
+                  <tr style="background: #f8f9ff;">
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">W (Work)</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">By system</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">On system</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">ΔU (Internal Energy)</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Increases</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Decreases</td>
+                  </tr>
+                </table>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 1: Basic First Law</h5>
+                  <p><strong>Problem:</strong> A gas absorbs 500 J of heat and does 200 J of work. Calculate the change in internal energy.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: Q = +500 J (heat added to system), W = +200 J (work done by system)</p>
+                  <p>Using ΔU = Q - W</p>
+                  <p>ΔU = 500 - 200</p>
+                  <p><strong>ΔU = 300 J</strong></p>
+                  <p><strong>Interpretation:</strong> The internal energy increased by 300 J. The system absorbed 500 J of heat, used 200 J to do work, and kept 300 J as internal energy (temperature increase).</p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 2: Compression</h5>
+                  <p><strong>Problem:</strong> A gas is compressed, and 300 J of work is done on it. If it releases 100 J of heat, find ΔU.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Work done ON system: W = -300 J (negative because work done on system)</p>
+                  <p>Heat released: Q = -100 J (negative because heat leaves system)</p>
+                  <p>ΔU = Q - W = (-100) - (-300) = -100 + 300</p>
+                  <p><strong>ΔU = 200 J</strong></p>
+                  <p>Internal energy increased despite heat loss because compression did more work.</p>
+                </div>
+
+                <h3>Second Law of Thermodynamics</h3>
+                <p>The entropy of an isolated system always increases over time. Heat naturally flows from hot to cold, never the reverse (without external work). This law explains why processes have a preferred direction in time.</p>
+
+                <h4>Key Concepts:</h4>
+                <ul>
+                  <li><strong>Entropy (S):</strong> Measure of disorder or randomness in a system</li>
+                  <li>Natural processes increase total entropy (system + surroundings)</li>
+                  <li>Heat flows from hot to cold spontaneously (never reverse)</li>
+                  <li>No heat engine can be 100% efficient</li>
+                  <li>Energy quality degrades over time (becomes less useful)</li>
+                  <li>Explains "arrow of time" - why we remember past, not future</li>
+                </ul>
+
+                <h4>Consequences:</h4>
+                <ul>
+                  <li>Perfect (100% efficient) heat engines impossible</li>
+                  <li>Perfect refrigerators (no work needed) impossible</li>
+                  <li>Perpetual motion machines impossible</li>
+                  <li>Universe tends toward maximum entropy ("heat death")</li>
+                </ul>
+
+                <h3>Heat Engine Efficiency</h3>
+                <p>A heat engine converts thermal energy to mechanical work by operating between hot and cold reservoirs.</p>
+
+                <div class="formula-box">
+                  η = W/Q_h = (Q_h - Q_c)/Q_h = 1 - Q_c/Q_h
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Efficiency = Work Output / Heat Input
+                  </div>
+                </div>
+
+                <h4>Understanding Heat Engines:</h4>
+                <ul>
+                  <li><strong>η (eta):</strong> Efficiency (0 to 1, or 0% to 100%)</li>
+                  <li><strong>Q_h:</strong> Heat absorbed from hot reservoir (input)</li>
+                  <li><strong>Q_c:</strong> Heat rejected to cold reservoir (waste)</li>
+                  <li><strong>W:</strong> Useful work output = Q_h - Q_c</li>
+                  <li>Efficiency < 1 always (some heat always wasted)</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 3: Engine Efficiency</h5>
+                  <p><strong>Problem:</strong> A heat engine absorbs 1000 J from hot reservoir and rejects 600 J to cold reservoir. Calculate: (a) work output, (b) efficiency.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: Q_h = 1000 J, Q_c = 600 J</p>
+                  
+                  <p><strong>(a) Work Output:</strong></p>
+                  <p>W = Q_h - Q_c = 1000 - 600</p>
+                  <p><strong>W = 400 J</strong></p>
+                  
+                  <p><strong>(b) Efficiency:</strong></p>
+                  <p>η = W/Q_h = 400/1000 = 0.4</p>
+                  <p><strong>η = 40%</strong></p>
+                  
+                  <p><strong>Interpretation:</strong> 40% of input heat converted to useful work, 60% wasted as heat to cold reservoir.</p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 4: Finding Heat Values</h5>
+                  <p><strong>Problem:</strong> An engine has 30% efficiency. If it does 900 J of work, find Q_h and Q_c.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: η = 0.30, W = 900 J</p>
+                  
+                  <p><strong>Finding Q_h:</strong></p>
+                  <p>η = W/Q_h, so Q_h = W/η</p>
+                  <p>Q_h = 900/0.30</p>
+                  <p><strong>Q_h = 3000 J</strong></p>
+                  
+                  <p><strong>Finding Q_c:</strong></p>
+                  <p>W = Q_h - Q_c, so Q_c = Q_h - W</p>
+                  <p>Q_c = 3000 - 900</p>
+                  <p><strong>Q_c = 2100 J</strong></p>
+                </div>
+
+                <h3>Carnot Efficiency</h3>
+                <p>The maximum theoretical efficiency for any heat engine operating between two temperatures. No real engine can exceed Carnot efficiency.</p>
+
+                <div class="formula-box">
+                  η_carnot = 1 - T_c/T_h
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    Temperatures MUST be in Kelvin (K)
+                  </div>
+                </div>
+
+                <h4>Important Points:</h4>
+                <ul>
+                  <li>Maximum possible efficiency for given temperatures</li>
+                  <li>Real engines always less efficient than Carnot</li>
+                  <li>Depends ONLY on temperatures, not on working substance</li>
+                  <li>To convert: T(K) = T(°C) + 273.15</li>
+                  <li>Higher T_h or lower T_c gives better efficiency</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 5: Carnot Efficiency</h5>
+                  <p><strong>Problem:</strong> Calculate maximum efficiency of engine operating between 600 K and 300 K.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p>Given: T_h = 600 K, T_c = 300 K</p>
+                  <p>Using η_carnot = 1 - T_c/T_h</p>
+                  <p>η = 1 - 300/600 = 1 - 0.5</p>
+                  <p><strong>η = 0.5 or 50%</strong></p>
+                  <p>This is theoretical maximum - real engines would be 30-40%</p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Worked Example 6: Temperature Conversion</h5>
+                  <p><strong>Problem:</strong> An engine operates between 327°C and 27°C. Find maximum efficiency.</p>
+                  <p><strong>Solution:</strong></p>
+                  <p><strong>Step 1: Convert to Kelvin</strong></p>
+                  <p>T_h = 327 + 273 = 600 K</p>
+                  <p>T_c = 27 + 273 = 300 K</p>
+                  
+                  <p><strong>Step 2: Calculate efficiency</strong></p>
+                  <p>η = 1 - T_c/T_h = 1 - 300/600</p>
+                  <p><strong>η = 50%</strong></p>
+                </div>
+
+                <h3>Third Law of Thermodynamics</h3>
+                <p>As temperature approaches absolute zero (0 K = -273.15°C), the entropy of a perfect crystal approaches zero.</p>
+
+                <h4>Key Points:</h4>
+                <ul>
+                  <li>Absolute zero (0 K) cannot be reached in finite number of steps</li>
+                  <li>At 0 K, all molecular motion ceases (theoretically)</li>
+                  <li>Provides absolute reference point for entropy</li>
+                  <li>Coldest achieved: ~10⁻¹⁰ K (very close, but never 0)</li>
+                </ul>
+
+                <h3>Heat Transfer Methods</h3>
+                
+                <h4>1. Conduction</h4>
+                <ul>
+                  <li>Heat transfer through direct contact</li>
+                  <li>Occurs in solids primarily</li>
+                  <li>Molecules vibrate and transfer energy to neighbors</li>
+                  <li>Example: Metal spoon gets hot in hot coffee</li>
+                  <li>Good conductors: metals (copper, aluminum)</li>
+                  <li>Poor conductors (insulators): wood, plastic, air</li>
+                </ul>
+
+                <h4>2. Convection</h4>
+                <ul>
+                  <li>Heat transfer through fluid movement</li>
+                  <li>Occurs in liquids and gases</li>
+                  <li>Hot fluid rises, cold fluid sinks (convection currents)</li>
+                  <li>Example: Hot air rises in room, boiling water circulates</li>
+                  <li>Can be natural (density differences) or forced (fans, pumps)</li>
+                </ul>
+
+                <h4>3. Radiation</h4>
+                <ul>
+                  <li>Heat transfer through electromagnetic waves</li>
+                  <li>No medium needed (works in vacuum)</li>
+                  <li>All objects emit thermal radiation</li>
+                  <li>Example: Sun's heat reaching Earth, fire warming your hands</li>
+                  <li>Hotter objects radiate more (Stefan-Boltzmann law)</li>
+                </ul>
+
+                <h3>Real-World Applications</h3>
+
+                <h4>Car Engines (Otto Cycle)</h4>
+                <ul>
+                  <li>Convert fuel chemical energy → thermal → mechanical work</li>
+                  <li>Typical efficiency: 25-35%</li>
+                  <li>Waste heat expelled through exhaust and radiator</li>
+                  <li>Cannot reach Carnot efficiency due to friction, incomplete combustion</li>
+                </ul>
+
+                <h4>Refrigerators & Air Conditioners</h4>
+                <ul>
+                  <li>Move heat from cold to hot (opposite of natural flow)</li>
+                  <li>Require work input (electricity)</li>
+                  <li>Second law allows this WITH work input</li>
+                  <li>COP (Coefficient of Performance) measures efficiency</li>
+                </ul>
+
+                <h4>Power Plants</h4>
+                <ul>
+                  <li>Generate electricity from heat (coal, nuclear, solar thermal)</li>
+                  <li>Efficiency limited by Carnot efficiency</li>
+                  <li>Modern plants: 35-45% efficient</li>
+                  <li>Waste heat released to environment (cooling towers)</li>
+                </ul>
+
+                <div class="exercise-box">
+                  <h5>🎯 Practice Exercises</h5>
+                  <ol>
+                    <li>A system absorbs 800 J of heat and does 300 J of work. Find ΔU.</li>
+                    <li>An engine has 25% efficiency and absorbs 2000 J. How much work is done? How much heat is wasted?</li>
+                    <li>Calculate Carnot efficiency for T_h = 500 K and T_c = 250 K.</li>
+                    <li>Why can't a heat engine be 100% efficient? Explain using Second Law.</li>
+                    <li>Convert 27°C to Kelvin.</li>
+                    <li>A refrigerator removes 500 J from cold interior. If 200 J of work is done, how much heat is expelled to room?</li>
+                    <li>If actual engine efficiency is 35% and Carnot efficiency is 50%, is this possible? Explain.</li>
+                    <li>Describe how heat is transferred when you place a cold can in warm water.</li>
+                  </ol>
+                </div>
+
+                <div class="exercise-box">
+                  <h5>✅ Detailed Answers</h5>
+                  <ol>
+                    <li>ΔU = Q - W = 800 - 300 = <strong>500 J</strong>. Internal energy increased by 500 J.</li>
+                    
+                    <li>W = η × Q_h = 0.25 × 2000 = <strong>500 J work done</strong>. Heat wasted: Q_c = Q_h - W = 2000 - 500 = <strong>1500 J wasted</strong>. 75% of energy wasted!</li>
+                    
+                    <li>η = 1 - T_c/T_h = 1 - 250/500 = 1 - 0.5 = <strong>0.5 or 50%</strong></li>
+                    
+                    <li>Second Law states entropy always increases in isolated systems. For 100% efficiency, Q_c = 0, meaning NO heat rejected to cold reservoir - this violates Second Law. Some heat MUST be rejected, making perfect efficiency impossible. Energy is conserved (First Law), but not all energy is useful - some always becomes waste heat.</li>
+                    
+                    <li>T(K) = T(°C) + 273.15 = 27 + 273 = <strong>300 K</strong></li>
+                    
+                    <li>Using energy conservation: Q_expelled = Q_removed + W = 500 + 200 = <strong>700 J</strong>. The room gets 700 J of heat (500 from food + 200 from compressor work).</li>
+                    
+                    <li><strong>Yes, this is possible and expected!</strong> Real engines are ALWAYS less efficient than Carnot efficiency. 35% < 50% ✓. Carnot efficiency is theoretical maximum. Real engines lose efficiency to friction, heat losses, incomplete combustion, etc. If actual > Carnot, that would violate Second Law.</li>
+                    
+                    <li>Three methods simultaneously:
+                    <br><strong>Conduction:</strong> Direct contact between can and water transfers heat
+                    <br><strong>Convection:</strong> Warm water rises around can, cold water sinks, creating circulation
+                    <br><strong>Radiation:</strong> Negligible at these low temperatures
+                    <br>Heat flows from warm water to cold can until thermal equilibrium reached.</li>
+                  </ol>
+                </div>
+
+                <h3>Common Misconceptions</h3>
+                <ul>
+                  <li><strong>Myth:</strong> "Heat and temperature are the same" - FALSE. Heat is energy transfer, temperature measures average kinetic energy</li>
+                  <li><strong>Myth:</strong> "Cold flows into objects" - FALSE. Heat flows out, leaving object colder</li>
+                  <li><strong>Myth:</strong> "Entropy is just disorder" - OVERSIMPLIFIED. Entropy measures number of possible microstates</li>
+                  <li><strong>Myth:</strong> "High efficiency means more work" - FALSE. Efficiency = W/Q_h. High efficiency means less waste, not necessarily more work</li>
+                </ul>
+              `
+            }
+          ]
+        },
+        chemistry: {
+          title: 'Chemistry - Grade 12',
+          icon: '🧪',
+          topics: [
+            {
+              title: "Atomic Structure",
+              preview: "Protons, neutrons, electrons, electron configuration, and periodic trends",
+              notes: `
+                <h3>Introduction to Atomic Structure</h3>
+                <p>Atoms are the fundamental building blocks of all matter in the universe. Understanding atomic structure is essential for understanding all of chemistry, from chemical bonding to reactions to the properties of materials.</p>
+
+                <h3>The Atom: A Historical Journey</h3>
+                <ul>
+                  <li><strong>John Dalton (1803):</strong> Proposed solid sphere model - atoms as tiny, indivisible balls</li>
+                  <li><strong>J.J. Thomson (1897):</strong> Discovered electrons; "plum pudding" model - positive sphere with electrons embedded</li>
+                  <li><strong>Ernest Rutherford (1911):</strong> Gold foil experiment revealed dense positive nucleus with electrons orbiting</li>
+                  <li><strong>Niels Bohr (1913):</strong> Electrons in specific energy levels/shells</li>
+                  <li><strong>Modern Model:</strong> Quantum mechanical model - electrons in probability clouds (orbitals)</li>
+                </ul>
+
+                <h3>Subatomic Particles</h3>
+                <p>Atoms consist of three main subatomic particles, each with distinct properties and locations.</p>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                  <tr style="background: #667eea; color: white;">
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Particle</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Symbol</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Charge</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Mass (amu)</th>
+                    <th style="padding: 0.8rem; border: 1px solid #ddd;">Location</th>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Proton</strong></td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">p⁺</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">+1</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">1.0073</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Nucleus</td>
+                  </tr>
+                  <tr style="background: #f8f9ff;">
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Neutron</strong></td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">n⁰</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">0</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">1.0087</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Nucleus</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Electron</strong></td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">e⁻</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">-1</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">0.000549 (~1/1840)</td>
+                    <td style="padding: 0.8rem; border: 1px solid #ddd;">Orbitals (shells)</td>
+                  </tr>
+                </table>
+
+                <h4>Key Facts:</h4>
+                <ul>
+                  <li><strong>Nucleus:</strong> Extremely dense, contains >99.9% of atom's mass, but only ~0.01% of volume</li>
+                  <li><strong>Atom Size:</strong> About 10⁻¹⁰ m diameter (1 Angstrom)</li>
+                  <li><strong>Nucleus Size:</strong> About 10⁻¹⁵ m diameter (100,000 times smaller than atom!)</li>
+                  <li><strong>Mostly Empty Space:</strong> If nucleus was size of a marble, electrons would be ~1 km away</li>
+                  <li><strong>Neutral Atom:</strong> Number of protons = number of electrons (charges balance)</li>
+                </ul>
+
+                <h3>Atomic Number and Mass Number</h3>
+                <p>These fundamental numbers define and identify every element.</p>
+
+                <h4>Atomic Number (Z)</h4>
+                <ul>
+                  <li>Number of protons in nucleus</li>
+                  <li>Uniquely identifies the element (Carbon always has 6 protons)</li>
+                  <li>Equals number of electrons in neutral atom</li>
+                  <li>Determines element's position in periodic table</li>
+                  <li>Cannot change without changing element</li>
+                </ul>
+
+                <h4>Mass Number (A)</h4>
+                <ul>
+                  <li>Total number of protons + neutrons in nucleus</li>
+                  <li>Approximately equals atomic mass (in amu)</li>
+                  <li>Can vary for same element (isotopes)</li>
+                  <li>Written as superscript before element symbol</li>
+                </ul>
+
+                <div class="formula-box">
+                  Number of Neutrons (N) = Mass Number (A) - Atomic Number (Z)
+                  <div style="font-size: 1rem; margin-top: 0.5rem; font-weight: normal;">
+                    N = A - Z
+                  </div>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Notation: ᴬ₂X where A = mass number, Z = atomic number, X = element symbol</h5>
+                  <p><strong>Example: ¹²₆C (Carbon-12)</strong></p>
+                  <ul>
+                    <li>Atomic number (Z) = 6 → 6 protons</li>
+                    <li>Mass number (A) = 12 → 12 total nucleons</li>
+                    <li>Neutrons = 12 - 6 = 6 neutrons</li>
+                    <li>Neutral atom → 6 electrons</li>
+                    <li>Element = Carbon (because 6 protons)</li>
+                  </ul>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 More Examples</h5>
+                  <p><strong>¹⁶₈O (Oxygen-16):</strong> 8 protons, 8 neutrons, 8 electrons</p>
+                  <p><strong>²³₁₁Na (Sodium-23):</strong> 11 protons, 12 neutrons, 11 electrons</p>
+                  <p><strong>³⁵₁₇Cl (Chlorine-35):</strong> 17 protons, 18 neutrons, 17 electrons</p>
+                  <p><strong>²³⁸₉₂U (Uranium-238):</strong> 92 protons, 146 neutrons, 92 electrons</p>
+                </div>
+
+                <h3>Isotopes</h3>
+                <p>Isotopes are atoms of the same element with different numbers of neutrons. They have the same atomic number but different mass numbers.</p>
+
+                <h4>Key Characteristics:</h4>
+                <ul>
+                  <li><strong>Same element:</strong> Same number of protons (same Z)</li>
+                  <li><strong>Different mass:</strong> Different number of neutrons (different A)</li>
+                  <li><strong>Same chemistry:</strong> Chemical properties determined by electrons, not neutrons</li>
+                  <li><strong>Different physical properties:</strong> Mass affects density, nuclear stability</li>
+                  <li><strong>Natural occurrence:</strong> Most elements exist as mixtures of isotopes</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Carbon Isotopes</h5>
+                  <p><strong>¹²₆C (Carbon-12):</strong> 6 protons, 6 neutrons - 98.9% of natural carbon, stable</p>
+                  <p><strong>¹³₆C (Carbon-13):</strong> 6 protons, 7 neutrons - 1.1% of natural carbon, stable</p>
+                  <p><strong>¹⁴₆C (Carbon-14):</strong> 6 protons, 8 neutrons - trace amounts, radioactive (used for dating)</p>
+                  <p>All three are carbon because they all have 6 protons, but different neutron counts give different properties.</p>
+                </div>
+
+                <div class="example-box">
+                  <h5>📝 Hydrogen Isotopes (Special Names)</h5>
+                  <p><strong>¹₁H (Protium):</strong> 1 proton, 0 neutrons - 99.98% abundance</p>
+                  <p><strong>²₁H (Deuterium):</strong> 1 proton, 1 neutron - 0.02% abundance, stable</p>
+                  <p><strong>³₁H (Tritium):</strong> 1 proton, 2 neutrons - trace amounts, radioactive</p>
+                </div>
+
+                <h3>Electron Configuration</h3>
+                <p>Electrons occupy specific energy levels and sublevels around the nucleus in a predictable pattern. Understanding electron configuration is crucial for predicting chemical behavior.</p>
+
+                <h4>Energy Levels (Shells)</h4>
+                <ul>
+                  <li>Designated by principal quantum number n = 1, 2, 3, 4...</li>
+                  <li>Maximum electrons per level = 2n²</li>
+                  <li>Level 1: max 2 electrons</li>
+                  <li>Level 2: max 8 electrons (2 + 6)</li>
+                  <li>Level 3: max 18 electrons (2 + 6 + 10)</li>
+                  <li>Level 4: max 32 electrons (2 + 6 + 10 + 14)</li>
+                  <li>Higher levels = higher energy, farther from nucleus</li>
+                </ul>
+
+                <h4>Sublevels (Orbitals)</h4>
+                <ul>
+                  <li><strong>s sublevel:</strong> Spherical shape, 1 orbital, holds 2 electrons</li>
+                  <li><strong>p sublevel:</strong> Dumbbell shape, 3 orbitals, holds 6 electrons</li>
+                  <li><strong>d sublevel:</strong> Complex shapes, 5 orbitals, holds 10 electrons</li>
+                  <li><strong>f sublevel:</strong> Very complex shapes, 7 orbitals, holds 14 electrons</li>
+                  <li>Each orbital holds maximum 2 electrons with opposite spins</li>
+                </ul>
+
+                <h4>Aufbau Principle (Filling Order)</h4>
+                <p>Electrons fill orbitals from lowest to highest energy:</p>
+                <p><strong>1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d → 5p → 6s → 4f → 5d → 6p → 7s → 5f → 6d...</strong></p>
+
+                <div class="example-box">
+                  <h5>📝 Electron Configuration Examples</h5>
+                  
+                  <p><strong>Hydrogen (H, Z=1):</strong> 1s¹</p>
+                  <p>1 electron in 1s orbital</p>
+                  
+                  <p><strong>Helium (He, Z=2):</strong> 1s²</p>
+                  <p>1s orbital filled (noble gas configuration)</p>
+                  
+                  <p><strong>Carbon (C, Z=6):</strong> 1s² 2s² 2p²</p>
+                  <p>2 electrons in 1s, 2 in 2s, 2 in 2p</p>
+                  
+                  <p><strong>Nitrogen (N, Z=7):</strong> 1s² 2s² 2p³</p>
+                  <p>Half-filled p sublevel (relatively stable)</p>
+                  
+                  <p><strong>Neon (Ne, Z=10):</strong> 1s² 2s² 2p⁶</p>
+                  <p>Filled energy level (very stable noble gas)</p>
+                  
+                  <p><strong>Sodium (Na, Z=11):</strong> 1s² 2s² 2p⁶ 3s¹</p>
+                  <p>Can be written as [Ne] 3s¹ (core notation)</p>
+                  
+                  <p><strong>Iron (Fe, Z=26):</strong> 1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d⁶</p>
+                  <p>Or [Ar] 4s² 3d⁶ (note 4s fills before 3d)</p>
+                </div>
+
+                <h4>Valence Electrons</h4>
+                <ul>
+                  <li>Electrons in outermost energy level</li>
+                  <li>Determine chemical properties and bonding behavior</li>
+                  <li>Elements in same group have same number of valence electrons</li>
+                  <li>Maximum 8 valence electrons (octet rule)</li>
+                  <li>Noble gases have 8 valence electrons (except He with 2) - very stable</li>
+                </ul>
+
+                <div class="example-box">
+                  <h5>📝 Valence Electrons by Group</h5>
+                  <p><strong>Group 1:</strong> 1 valence electron (Li, Na, K...) - very reactive metals</p>
+                  <p><strong>Group 2:</strong> 2 valence electrons (Mg, Ca...) - reactive metals</p>
+                  <p><strong>Group 17:</strong> 7 valence electrons (F, Cl, Br...) - very reactive nonmetals</p>
+                  <p><strong>Group 18:</strong> 8 valence electrons (Ne, Ar...) - unreactive noble gases</p>
+                </div>
+
+                <h3>Periodic Table Trends</h3>
+                <p>Properties of elements change in predictable ways across periods and down groups.</p>
+
+                <h4>1. Atomic Radius</h4>
+                <ul>
+                  <li><strong>Across a period (left → right):</strong> DECREASES
+                    <ul>
+                      <li>More protons pull electrons closer</li>
+                      <li>Same energy level, increased nuclear charge</li>
+                      <li>Example: Na > Mg > Al > Si > P > S > Cl</li>
+                    </ul>
+                  </li>
+                  <li><strong>Down a group:</strong> INCREASES
+                    <ul>
+                      <li>Additional energy levels added</li>
+                      <li>Electrons farther from nucleus</li>
+                      <li>Example: Li < Na < K < Rb < Cs</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <h4>2. Ionization Energy</h4>
+                <ul>
+                  <li>Energy required to remove an electron</li>
+                  <li><strong>Across a period:</strong> INCREASES (harder to remove electrons)</li>
+                  <li><strong>Down a group:</strong> DECREASES (easier to remove electrons)</li>
+                  <li>Noble gases have highest ionization energies (stable)</li>
+                  <li>Alkali metals have lowest ionization energies (easy to lose 1 electron)</li>
+                </ul>
+
+                <h4>3. Electronegativity</h4>
+                <ul>
+                  <li>Ability to attract electrons in a bond</li>
+                  <li><strong>Across a period:</strong> INCREASES</li>
+                  <li><strong>Down a group:</strong> DECREASES</li>
+                  <li>Fluorine is most electronegative (3.98)</li>
+                  <li>Francium is least electronegative (~0.7)</li>
+                  <li>Noble gases don't form bonds, so no electronegativity</li>
+                </ul>
+
+                <h4>4. Metallic Character</h4>
+                <ul>
+                  <li>How readily an atom loses electrons</li>
+                  <li><strong>Across a period:</strong> DECREASES (metals → metalloids → nonmetals)</li>
+                  <li><strong>Down a group:</strong> INCREASES (more metallic)</li>
+                  <li>Bottom left = most metallic (Cs, Fr)</li>
+                  <li>Top right = least metallic/most nonmetallic (F, O, N)</li>
+                </ul>
+
+                <div class="exercise-box">
+                  <h5>🎯 Practice Exercises</h5>
+                  <ol>
+                    <li>An atom has 17 protons and 18 neutrons. What is: (a) atomic number, (b) mass number, (c) element identity, (d) number of electrons?</li>
+                    <li>Write the complete electron configuration for Oxygen (Z=8).</li>
+                    <li>How many valence electrons does Chlorine (Z=17) have?</li>
+                    <li>What is an isotope? Give an example with carbon.</li>
+                    <li>Why does atomic radius decrease across a period?</li>
+                    <li>Write electron configurations for: (a) N (Z=7), (b) Al (Z=13), (c) Ar (Z=18)</li>
+                    <li>Which has larger atomic radius: Na or Cl? Explain.</li>
+                    <li>Why do noble gases have high ionization energies?</li>
+                    <li>How many neutrons are in ⁵⁶₂₆Fe?</li>
+                    <li>Explain why elements in the same group have similar chemical properties.</li>
+                  </ol>
+                </div>
+
+                <div class="exercise-box">
+                  <h5>✅ Detailed Answers</h5>
+                  <ol>
+                    <li>(a) Atomic number Z = 17 (number of protons)
+                    <br>(b) Mass number A = 17 + 18 = 35
+                    <br>(c) Element is Chlorine (Cl) - 17 protons identifies it
+                    <br>(d) Neutral atom has 17 electrons (same as protons)
+                    <br>This is Chlorine-35 (¹⁷₃₅Cl)</li>
+                    
+                    <li>O (Z=8): <strong>1s² 2s² 2p⁴</strong>
+                    <br>Breakdown: 2 electrons in 1s, 2 in 2s, 4 in 2p
+                    <br>Total: 2 + 2 + 4 = 8 electrons ✓</li>
+                    
+                    <li>Cl (Z=17): 1s² 2s² 2p⁶ 3s² 3p⁵
+                    <br>Outermost level (n=3): 3s² 3p⁵ = 2 + 5 = <strong>7 valence electrons</strong>
+                    <br>Group 17 elements all have 7 valence electrons</li>
+                    
+                    <li>Isotopes are atoms of the same element (same protons) with different numbers of neutrons.
+                    <br>Carbon isotopes:
+                    <br>• Carbon-12 (¹²C): 6 protons, 6 neutrons
+                    <br>• Carbon-13 (¹³C): 6 protons, 7 neutrons
+                    <br>• Carbon-14 (¹⁴C): 6 protons, 8 neutrons
+                    <br>All are carbon (6 protons), but different masses.</li>
+                    
+                    <li>Across a period, atomic radius decreases because:
+                    <br>• Nuclear charge increases (more protons)
+                    <br>• Electrons added to same energy level (no shielding increase)
+                    <br>• Increased nuclear charge pulls electrons closer
+                    <br>• Same distance from nucleus but stronger attraction
+                    <br>Example: Na (larger) → Mg → Al → Si → P → S → Cl (smaller)</li>
+                    
+                    <li>(a) N (Z=7): <strong>1s² 2s² 2p³</strong>
+                    <br>(b) Al (Z=13): <strong>1s² 2s² 2p⁶ 3s² 3p¹</strong> or [Ne] 3s² 3p¹
+                    <br>(c) Ar (Z=18): <strong>1s² 2s² 2p⁶ 3s² 3p⁶</strong> or [Ne] 3s² 3p⁶ (stable noble gas)</li>
+                    
+                    <li><strong>Na has larger atomic radius than Cl.</strong>
+                    <br>Both are in Period 3, but:
+                    <br>• Na (Group 1): 11 protons, nuclear charge +11
+                    <br>• Cl (Group 17): 17 protons, nuclear charge +17
+                    <br>Cl's greater nuclear charge pulls electrons much closer despite being same energy level. Across period, radius decreases.</li>
+                    
+                    <li>Noble gases have high ionization energies because:
+                    <br>• Filled valence shells (8 electrons, or 2 for He)
+                    <br>• Very stable electron configuration
+                    <br>• Strong nuclear attraction (small atomic radius)
+                    <br>• Removing electron disrupts stable configuration
+                    <br>• Requires large energy input
+                    <br>This is why they're unreactive.</li>
+                    
+                    <li>⁵⁶₂₆Fe: Mass number A = 56, Atomic number Z = 26
+                    <br>Neutrons N = A - Z = 56 - 26 = <strong>30 neutrons</strong>
+                    <br>This is Iron-56, the most common isotope of iron</li>
+                    
+                    <li>Elements in the same group have similar chemical properties because:
+                    <br>• Same number of valence electrons
+                    <br>• Same outer electron configuration
+                    <br>• Chemical behavior determined by valence electrons
+                    <br>Example: Group 1 (Li, Na, K, Rb, Cs) all have 1 valence electron
+                    <br>• All form +1 ions
+                    <br>• All react vigorously with water
+                    <br>• All form similar compounds (NaCl, KCl, etc.)</li>
+                  </ol>
+                </div>
+
+                <h3>Summary: Why Atomic Structure Matters</h3>
+                </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bc454e1e50e4ed3',t:'MTc2ODEzMzY0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
